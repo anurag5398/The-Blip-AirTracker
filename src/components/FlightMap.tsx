@@ -2,11 +2,17 @@ import type { FeatureCollection, MultiLineString, Point } from 'geojson';
 import {
   Map as MapLibreMap,
   NavigationControl,
+  setWorkerUrl,
   type ExpressionSpecification,
   type GeoJSONSource,
   type MapMouseEvent,
 } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+// MapLibre loads its worker by URL. Vite copies this file into dist/ and gives us its real URL.
+// Without this, the production build requests a missing worker and gets index.html back.
+import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
+
+setWorkerUrl(maplibreWorkerUrl);
 import { useEffect, useRef, useState } from 'react';
 import type { BBox } from '../../shared/geo';
 import { ALERT_COLOR, RARITY_COLOR, toFeatureCollection, toTrailCollection, type Blip, type BlipProperties, type Trails } from '../lib/flights';
