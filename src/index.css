@@ -1,0 +1,107 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'Bricolage Grotesque Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Bricolage Grotesque Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, monospace;
+  --color-ink: #05070d;
+  --color-panel: #0b101b;
+  --color-accent: #7dd3fc;
+  --color-phosphor: #5cffa0;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-ink font-sans text-slate-200 antialiased;
+    overscroll-behavior: none;
+  }
+
+  button:focus-visible,
+  input:focus-visible,
+  [role='application']:focus-visible {
+    outline: 2px solid var(--color-sky-300);
+    outline-offset: 2px;
+  }
+}
+
+/* MapLibre controls restyled to match the HUD */
+.maplibregl-ctrl-group {
+  background: rgb(11 16 27 / 0.85) !important;
+  border: 1px solid rgb(255 255 255 / 0.1) !important;
+  border-radius: 14px !important;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+}
+
+.maplibregl-ctrl-group button + button {
+  border-top-color: rgb(255 255 255 / 0.1) !important;
+}
+
+.maplibregl-ctrl-group button span {
+  filter: invert(1);
+}
+
+.maplibregl-ctrl-attrib {
+  background: rgb(5 7 13 / 0.6) !important;
+  color: rgb(148 163 184) !important;
+}
+
+.maplibregl-ctrl-attrib a {
+  color: rgb(125 211 252) !important;
+}
+
+/* Foil: a slow holographic sheen across the card face */
+.foil {
+  background: linear-gradient(115deg, transparent 30%, rgb(255 255 255 / 0.22) 45%, rgb(196 181 253 / 0.18) 50%, transparent 65%);
+  background-size: 250% 100%;
+  mix-blend-mode: screen;
+  animation: foil 4.5s ease-in-out infinite;
+}
+
+@keyframes foil {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* ATC radar surfaces: sharp corners, phosphor on near-black, faint scanlines */
+.atc-panel {
+  background: rgb(3 14 10 / 0.9);
+  border: 1px solid rgb(92 255 160 / 0.3);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.6), 0 24px 60px -20px rgb(0 0 0 / 0.9), inset 0 0 40px rgb(92 255 160 / 0.04);
+  backdrop-filter: blur(10px);
+  border-radius: 4px;
+}
+
+.scanlines {
+  position: relative;
+}
+
+.scanlines::after {
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(to bottom, rgb(0 0 0 / 0.18) 0 1px, transparent 1px 3px);
+  border-radius: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
